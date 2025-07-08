@@ -63,6 +63,7 @@ function Dashboard({ transactions }) {
       const thisMonthTransactions = transactions.filter(
         (t) => new Date(t.id).getMonth() === currentMonth
       );
+
       const lastMonthTransactions = transactions.filter(
         (t) => new Date(t.id).getMonth() === lastMonth
       );

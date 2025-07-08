@@ -99,5 +99,5 @@ app.put("/transactions/:id", async (req, res) => {
 
 // Start the server
 app.listen(5000, (req, res) => {
-  console.log(`🚀 Server running at http://localhost:5000`);
+  console.log(`🚀 Server running at https://newfinance-4.onrender.com`);
 });

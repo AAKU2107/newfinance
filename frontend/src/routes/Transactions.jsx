@@ -1,7 +1,6 @@
-import React from 'react';
-import TransactionForm from '@/components/TransactionForm';
-import TransactionsList from '@/components/TransactionsList';
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
+import { Card, CardContent } from "@/components/ui/card";
+import TransactionForm from "../components/TransactionForm";
+import TransactionList from "../components/TransactionList";
 
 function Transactions({
   transactions,
@@ -14,16 +13,29 @@ function Transactions({
       ? acc - Number(item.amount)
       : acc + Number(item.amount);
   }, 0);
+
   return (
-    <div className="max-w-3xl mx-auto p-6 space-y-8">
-      <Card className="shadow-lg rounded-xl mb-6">
-        <CardHeader className="text-xl font-semibold text-gray-700">Current Balance</CardHeader>
-        <CardContent>
-          <span className={`text-2xl font-bold ${balance >= 0 ? 'text-green-600' : 'text-red-600'}`}>{balance}</span>
-        </CardContent>
-      </Card>
+    <div className="main-container" style={{ padding: "20px" }}>
+      <div className="main-container">
+        <h2 className="sub-heading-large">Your Transactions</h2>
+        <Card>
+          <CardContent style={{ padding: "24px" }}>
+            <div className="main-container">
+              <span className="sub-heading-small">Current Balance</span>
+              <span
+                className="sub-heading-medium"
+                style={{ color: balance >= 0 ? "green" : "red" }}
+              >
+                ${balance.toLocaleString()}
+              </span>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
       <TransactionForm addTransaction={addTransaction} />
-      <TransactionsList
+
+      <TransactionList
         transactions={transactions}
         deleteTransaction={deleteTransaction}
         editTransaction={editTransaction}

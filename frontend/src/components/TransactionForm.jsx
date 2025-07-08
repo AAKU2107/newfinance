@@ -1,21 +1,18 @@
-import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useEffect, useState } from "react";
 
 function TransactionForm({ addTransaction }) {
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState(0);
   const [description, setDescription] = useState("");
   const [type, setType] = useState("income"); // Default to income
   const [category, setCategory] = useState("General"); // Default to General
-  const [customCategories, setCustomCategories] = useState([]);
+  const [customCategories, setCustomCategories] = useState(
+    JSON.parse(localStorage.getItem("customCategories")) || []
+  );
   const [newCategory, setNewCategory] = useState("");
-
-  useEffect(() => {
-    const storedCategories =
-      JSON.parse(localStorage.getItem("customCategories")) || [];
-    setCustomCategories(storedCategories);
-  }, []);
 
   // Saving custom categories to localStorage
   useEffect(() => {
@@ -50,14 +47,14 @@ function TransactionForm({ addTransaction }) {
   };
 
   return (
-    <Card className="shadow-lg rounded-xl mb-6">
-      <CardHeader className="text-xl font-semibold text-gray-700">
+    <Card className="">
+      <CardHeader className="sub-heading-medium">
         Add New Transaction
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleAdd} className="space-y-6">
+        <form onSubmit={handleAdd} className="main-container">
           <div className="flex flex-col gap-2">
-            <label htmlFor="amount" className="font-medium text-gray-600">Amount</label>
+            <label htmlFor="amount">Amount</label>
             <Input
               id="amount"
               type="number"
@@ -72,7 +69,7 @@ function TransactionForm({ addTransaction }) {
           </div>
 
           <div className="flex flex-col gap-2">
-            <label htmlFor="description" className="font-medium text-gray-600">Description</label>
+            <label htmlFor="description">Description</label>
             <Input
               id="description"
               type="text"
@@ -84,14 +81,13 @@ function TransactionForm({ addTransaction }) {
             />
           </div>
 
-          <div className="flex flex-col md:flex-row gap-6">
+          <div className="flex gap-8">
             <div className="flex flex-col gap-2 flex-1">
-              <label htmlFor="type" className="font-medium text-gray-600">Type</label>
+              <label htmlFor="type">Type</label>
               <select
                 id="type"
                 value={type}
                 onChange={(e) => setType(e.target.value)}
-                className="w-full p-2 border rounded"
               >
                 <option value="income">Income</option>
                 <option value="expense">Expense</option>
@@ -99,25 +95,24 @@ function TransactionForm({ addTransaction }) {
             </div>
 
             <div className="flex flex-col gap-2 flex-1">
-              <label htmlFor="category" className="font-medium text-gray-600">Category</label>
+              <label htmlFor="category">Category</label>
               <select
                 id="category"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full p-2 border rounded"
               >
                 <option value="General">General</option>
                 <option value="Food">Food</option>
                 <option value="Shopping">Shopping</option>
                 <option value="Bills">Bills</option>
                 <option value="Entertainment">Entertainment</option>
-                <option value="Other">Other</option>
                 {/* custom categories from localStorage */}
                 {customCategories.map((item, index) => (
                   <option key={index} value={item}>
                     {item}
                   </option>
                 ))}
+                <option value="Other">Other</option>
               </select>
             </div>
           </div>
@@ -130,16 +125,15 @@ function TransactionForm({ addTransaction }) {
               value={newCategory}
               onChange={(e) => setNewCategory(e.target.value)}
               placeholder="Add custom category..."
-              className="flex-1"
             />
-            <Button onClick={handleAddCategory} disabled={!newCategory.trim()} type="button">
+            <Button onClick={handleAddCategory} disabled={!newCategory.trim()}>
               Add
             </Button>
           </div>
 
           <Button
             type="submit"
-            className="w-full mt-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg shadow"
+            style={{ width: "100%", marginTop: "10px" }}
             disabled={!amount || !description}
           >
             Add Transaction
